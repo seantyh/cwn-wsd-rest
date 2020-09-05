@@ -1,0 +1,1 @@
+from .ckiptagger import tag
