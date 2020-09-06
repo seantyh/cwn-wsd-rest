@@ -4,6 +4,7 @@ from flask import request, make_response, jsonify
 
 from .ckiptagger import tag, ckip_warmup
 from .cwn_wsd import wsd, wsd_warmup
+from .senses import get_sense_clouds, get_sense_data
 
 app = Flask(__name__)
 CORS(app)
@@ -42,3 +43,19 @@ def wsd_sentence():
         "data": wsd_list
         }, 200))
 
+@app.route("/sense_cloud", methods=["GET"])
+def sense_clouds():
+    sids = request.args.get("sids")
+    if not sids:
+        return make_response({"status": "ok", "data": []})
+    
+    data = []
+    for sid in sids:
+        data.append(get_sense_clouds(sid))
+    
+    return make_response({"status": "ok", "data": data})
+
+@app.route("/sense_data/<sid>")
+def get_sense_data(sid):
+    sense_data = get_sense_data(sid)
+    return make_response({"status": "ok", "data": sense_data})
