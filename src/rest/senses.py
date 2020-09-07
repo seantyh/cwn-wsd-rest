@@ -57,10 +57,13 @@ def get_sense_clouds(sid: str):
         cemap = get_cemap()
         pos = sense.pos[0].lower() if sense.pos else ""
         pos = pos if pos in ("nv") else None
-        lemma = sense.lemmas[0].lemma if sense.lemmas else ""
-        if lemma in cemap:
-            syn = find_synset(cemap[sense.lemmas[0].lemma], pos=pos)            
-            pwn = ["generic", syn] if syn else []
+        if pos:
+            lemma = sense.lemmas[0].lemma if sense.lemmas else ""
+            if lemma in cemap:
+                syn = find_synset(cemap[sense.lemmas[0].lemma], pos=pos)            
+                pwn = ["generic", syn] if syn else []
+            else:
+                pwn = []
     
     if pwn:
         syn = pwn[1]        
