@@ -40,10 +40,10 @@ def syn2str(synsets):
 
 def get_sense_clouds(sid: str):
     cwn = get_cwn_inst()
-    sense = CwnSense(sid, cwn)
+    sense = CwnSense(sid, cwn)    
     rels = [(x[0], x[1].id, x[1].head_word, x[1].pos, x[1].definition) for x 
               in sense.semantic_relations 
-              if x[2] == "forward"]
+              if isinstance(x, CwnSense) and x[2] == "forward"]    
     
     pwn = []    
     if sense.pwn_synsets:        
